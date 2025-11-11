@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tips</title>
+<style>
+  html,body{
+    height:100%;
+    margin:0;
+    overflow:hidden;
+    font-family:"Segoe UI","Helvetica Neue",sans-serif;
+    background:radial-gradient(circle at 50% 45%,#fef6f9 0%,#cbeeff 100%);
+  }
+  .stage{position:relative;width:100%;height:100%;}
+  .msg{
+    position:absolute;
+    left:50%;top:50%;
+    padding:12px 22px;
+    border-radius:18px;
+    color:#fff;
+    font-weight:600;
+    font-size:clamp(14px,3.5vmin,26px);
+    text-shadow:0 2px 8px rgba(0,0,0,.3);
+    opacity:0;
+    transform:translate(-50%,-50%) translate(var(--dx),var(--dy)) scale(.7) rotate(var(--rot));
+    animation:fly var(--dur) cubic-bezier(.25,.7,.3,1) var(--delay) both;
+    box-shadow:0 8px 26px rgba(0,0,0,.25);
+    word-wrap:break-word;
+    text-align:center;
+    max-width:80vw;
+  }
+  @keyframes fly{
+    0%{opacity:0;transform:translate(-50%,-50%) translate(var(--dx),var(--dy)) scale(.7) rotate(var(--rot));}
+    15%{opacity:1;}
+    55%{opacity:1;transform:translate(-50%,-50%) translate(calc(var(--dx)*.1),calc(var(--dy)*.1)) scale(1.02);}
+    90%{opacity:1;transform:translate(-50%,-50%) translate(0,0) scale(1) rotate(0deg);}
+    100%{opacity:0;transform:translate(-50%,-50%) translate(0,0) scale(1.03);}
+  }
+  .replay{
+    position:absolute;
+    right:14px;
+    bottom:14px;
+    padding:8px 12px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.4);
+    backdrop-filter:blur(8px);
+    color:#222;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
+  }
+</style>
+</head>
+<body>
+  <div class="stage" id="stage"></div>
+  <button class="replay" id="replay">Replay</button>
+
+<script>
+const tips=[
+'Lâm Thư Tầm mãi mãi yêu Trần Tuyết Nhung','Anh nhớ em rất nhiều','Hãy chăm sóc bản thân thật tốt nhé Lâm Thư Tầm','Anh yêu em rất nhiều','Nhớ mặc thêm áo ấm nhé','Nhớ vui vẻ nhé Trần Tuyết Nhung','Mọi việc đều suôn sẻ','Em phải thật tốt nhé Lâm Thư Tầm','Anh sẽ luôn ở bên em Trần Tuyết Nhung','Hihi','Anh ở đây này Lâm Thư Tầm','Cố lên bé yêu','Nghỉ ngơi sớm nhé Trần Tuyết Nhung','Uống nhiều nước ấm nhé','Ra ngoài nhớ mang ô Lâm Thư Tầm','Ăn cơm đúng giờ nhé Trần Tuyết Nhung','Một ngày nhớ em','Ôm em nào Lâm Thư Tầm','Đừng sợ, có anh đây Trần Tuyết Nhung','Hôm nay cũng phải tràn đầy năng lượng nhé','Em là tuyệt nhất Lâm Thư Tầm','Cẩn thận cảm lạnh đó Trần Tuyết Nhung','Trên đường chú ý an toàn nhé','Hãy tin vào bản thân Lâm Thư Tầm','Mọi chuyện rồi sẽ tốt đẹp thôi Trần Tuyết Nhung','Từ từ thôi, đừng vội','Cười lên nào Lâm Thư Tầm','Xoa đầu nào Trần Tuyết Nhung','Mãi gặp những giấc mơ đẹp','Ánh nắng sẽ đến thôi Lâm Thư Tầm','Anh đợi em Trần Tuyết Nhung','Đừng thức khuya nữa nhé','Uống chút canh nóng đi Lâm Thư Tầm','Nhớ ăn sáng nhé Trần Tuyết Nhung','Hôm nay sẽ tốt hơn','Em xứng đáng được yêu thương Lâm Thư Tầm','Nỗ lực rồi sẽ có kết quả Trần Tuyết Nhung','Anh cực kỳ thích em','Đừng sợ, anh ở đây Lâm Thư Tầm','Một cái ôm là câu trả lời Trần Tuyết Nhung','Tặng em bông hoa nhỏ','May mắn nhỏ đang trên đường Lâm Thư Tầm','Chúc em một ngày tươi sáng Trần Tuyết Nhung','Trời lạnh rồi, mặc thêm áo nhé','Hãy đối xử dịu dàng với bản thân Lâm Thư Tầm','Nụ cười của em thật đẹp Trần Tuyết Nhung','Mãi đáng yêu nhé','Ra ngoài thuận lợi Lâm Thư Tầm','Bình an vui vẻ Trần Tuyết Nhung','Ngân hà lấp lánh vì em','Mọi cuộc gặp gỡ đều là món quà Lâm Thư Tầm','Tình yêu ở ngay lúc này Trần Tuyết Nhung','Cuộc sống sẽ ôm em','Mặt trời bé nhỏ của em đến rồi đây Lâm Thư Tầm','Mang trong lòng vũ trụ lãng mạn Trần Tuyết Nhung','Thắp sáng ngày hôm nay','Gửi em trọn vẹn may mắn Lâm Thư Tầm','Anh sẽ luôn bên em Trần Tuyết Nhung','Tiếp tục cố gắng nhé','Ước mơ đang ở rất gần Lâm Thư Tầm','Em nhất định làm được Trần Tuyết Nhung','Hy vọng luôn ở đó','Đừng sợ hãi Lâm Thư Tầm','Gió sẽ mang phiền muộn đi Trần Tuyết Nhung','Em là duy nhất','Hãy mỉm cười đối diện mọi chuyện Lâm Thư Tầm','Tâm trạng tốt thì thời tiết cũng tốt Trần Tuyết Nhung','Cố lên, tương lai đáng mong đợi','Nỗ lực của em sẽ tỏa sáng Lâm Thư Tầm','Cuộc sống chậm một chút cũng không sao Trần Tuyết Nhung','Thả lỏng đi nào','Đối xử tốt với bản thân Lâm Thư Tầm','Đừng quên hít thở Trần Tuyết Nhung','Đêm khuya cũng có ánh sao','Em xứng đáng với điều tốt nhất Lâm Thư Tầm','Mong thế giới dịu dàng với em Trần Tuyết Nhung','Cảm ơn vì có em','Mỗi ngày đều là khởi đầu mới Lâm Thư Tầm','Cùng hướng về phía mặt trời Trần Tuyết Nhung','Hãy tin vào ánh sáng','Tương lai đang chờ em Lâm Thư Tầm','Tiếp tục tiến lên Trần Tuyết Nhung','Không có khó khăn nào không vượt qua được','Hãy yêu bản thân Lâm Thư Tầm','Nhớ ăn hoa quả nhé Trần Tuyết Nhung','Phải vui lên nhé','Ánh sao không hỏi người vội vã Lâm Thư Tầm','Ngày mai sẽ tốt hơn Trần Tuyết Nhung','Buông bỏ lo âu','Gió sẽ nói cho em biết hướng đi Lâm Thư Tầm','Hạnh phúc ở ngay bên cạnh Trần Tuyết Nhung','Em đã làm rất tốt rồi','Người tốt sẽ gặp may mắn Lâm Thư Tầm','Thời gian sẽ chữa lành tất cả Trần Tuyết Nhung','Sự ấm áp không bao giờ vắng mặt','Mỗi nụ cười đều đáng giá Lâm Thư Tầm','Đừng quên đi thuở ban đầu Trần Tuyết Nhung','Mỗi bước đi đều có ý nghĩa','Đêm thật dịu dàng Lâm Thư Tầm','Bản thân em chính là ánh sáng Trần Tuyết Nhung','Thế giới rộng lớn, hãy từ từ khám phá','Hãy tin vào phép màu Lâm Thư Tầm','Trong lòng có tình yêu Trần Tuyết Nhung','Giữ mãi đam mê','Có ước mơ hãy theo đuổi Lâm Thư Tầm','Em là điều kỳ diệu nhất Trần Tuyết Nhung','Hãy dũng cảm lên','Đừng sợ mắc sai lầm Lâm Thư Tầm','Sau mưa trời lại sáng Trần Tuyết Nhung','Em xứng đáng với mọi điều tốt đẹp','Biển sao là của em Lâm Thư Tầm','Đừng quên nghỉ ngơi Trần Tuyết Nhung','Uống ly trà sữa nhé','Mỗi ngày đều vui vẻ Lâm Thư Tầm','Lòng hướng dương thì chẳng sợ u sầu Trần Tuyết Nhung','Gặp nhiều may mắn','Nụ cười là đáng yêu nhất Lâm Thư Tầm','Em rất giỏi! Trần Tuyết Nhung','Dịu dàng và kiên định','Hãy trở thành người tỏa sáng Lâm Thư Tầm','Gió thổi đến toàn là may mắn Trần Tuyết Nhung','Cuộc sống cần những niềm vui nho nhỏ','Mong chờ ngày mai Lâm Thư Tầm','Trân trọng hiện tại Trần Tuyết Nhung','Giấc mơ sẽ thành hiện thực','Giữ nhiệt huyết Lâm Thư Tầm','Hãy cảm nhận gió và sự tự do Trần Tuyết Nhung','Hạnh phúc là một lựa chọn','Hôm nay cũng phải lấp lánh nhé Lâm Thư Tầm','Cô bé đáng yêu của anh đến rồi đây Trần Tuyết Nhung','Phải luôn hạnh phúc nhé','Ngày mai gặp lại nha～ Lâm Thư Tầm'
+];
+
+const stage=document.getElementById('stage');
+const replay=document.getElementById('replay');
+
+const directions=[
+  {dx:'0vw',dy:'-80vh'},{dx:'0vw',dy:'80vh'},
+  {dx:'-80vw',dy:'0vh'},{dx:'80vw',dy:'0vh'},
+  {dx:'-70vw',dy:'-70vh'},{dx:'70vw',dy:'-70vh'},
+  {dx:'-70vw',dy:'70vh'},{dx:'70vw',dy:'70vh'},
+  {dx:'0vw',dy:'-60vh'},{dx:'0vw',dy:'60vh'},
+  {dx:'-60vw',dy:'0vh'},{dx:'60vw',dy:'0vh'}
+];
+
+function rand(min,max){return Math.random()*(max-min)+min;}
+function randomColor(){
+  const colors=[
+    ['#ff758c','#ff7eb3'],['#a18cd1','#fbc2eb'],
+    ['#f6d365','#fda085'],['#84fab0','#8fd3f4'],
+    ['#f093fb','#f5576c'],['#4facfe','#00f2fe'],
+    ['#43e97b','#38f9d7'],['#fa709a','#fee140'],
+    ['#30cfd0','#330867'],['#5ee7df','#b490ca']
+  ];
+  const c=colors[Math.floor(Math.random()*colors.length)];
+  return `linear-gradient(135deg,${c[0]},${c[1]})`;
+}
+
+function createMsg(i){
+  const el=document.createElement('div');
+  el.className='msg';
+  const d=directions[Math.floor(Math.random()*directions.length)];
+  el.style.setProperty('--dx',d.dx);
+  el.style.setProperty('--dy',d.dy);
+  el.style.setProperty('--rot',rand(-60,60)+'deg');
+  el.style.setProperty('--dur',(rand(6.5,9))+'s');
+  el.style.setProperty('--delay',(i*0.13+rand(0,0.5))+'s');
+  el.style.background=randomColor();
+  el.textContent=tips[Math.floor(Math.random()*tips.length)];
+  el.addEventListener('animationend',()=>el.remove());
+  stage.appendChild(el);
+}
+
+function play(){
+  stage.querySelectorAll('.msg').forEach(m=>m.remove());
+  for(let i=0;i<250;i++) createMsg(i);
+}
+
+play();
+replay.onclick=play;
+</script>
+</body>
+</html>
