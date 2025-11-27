@@ -53,11 +53,13 @@
   }
 </style>
 </head>
+
 <body>
   <div class="stage" id="stage"></div>
   <button class="replay" id="replay">Replay</button>
 
 <script>
+/* ------------------- 爱情句子数组 ------------------- */
 const tips = [
   "喜欢你，是我永远说不腻的事情，冯润佳。",
   "想你，是我每天都会做的习惯，冯润佳。",
@@ -157,11 +159,10 @@ const tips = [
   "你是我想用余生研究的人，冯润佳。",
   "想把我的肩膀留给你依靠，冯润佳。",
   "你的名字，是我心里最柔软的角落，冯润佳。",
-  "喜欢你这件事，我从没后悔过，冯润佳。",
-  "我对你的爱会一直一直继续下去，冯润佳。"
+  "喜欢你这件事，我从没后悔过，冯润佳。"
 ];
-</script>
 
+/* ------------------- 主要逻辑 ------------------- */
 
 const stage=document.getElementById('stage');
 const replay=document.getElementById('replay');
@@ -210,7 +211,7 @@ function play(){
 
 play();
 replay.onclick=play;
+
 </script>
 </body>
 </html>
-
